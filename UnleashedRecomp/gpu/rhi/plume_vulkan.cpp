@@ -19,7 +19,7 @@
 #   include "render/plume_dlss.h"
 #endif
 
-#ifndef NDEBUG
+#if 0 //ndef NDEBUG
 #   define VULKAN_VALIDATION_LAYER_ENABLED
 //#   define VULKAN_OBJECT_NAMES_ENABLED
 #endif
@@ -3692,8 +3692,8 @@ namespace plume {
                 fprintf(stderr, "Missing required extension: %s.\n", extension.c_str());
             }
 
-            fprintf(stderr, "Unable to create device. Required extensions are missing.\n");
-            return;
+            //fprintf(stderr, "Unable to create device. Required extensions are missing.\n");
+            //return;
         }
 
         // Store properties.
@@ -3704,12 +3704,12 @@ namespace plume {
         VkPhysicalDeviceDescriptorIndexingFeatures indexingFeatures = {};
         indexingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;
         featuresChain = &indexingFeatures;
-
+/*
         VkPhysicalDeviceScalarBlockLayoutFeatures layoutFeatures = {};
         layoutFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES;
         layoutFeatures.pNext = featuresChain;
         featuresChain = &layoutFeatures;
-
+*/
         VkPhysicalDevicePresentIdFeaturesKHR presentIdFeatures = {};
         VkPhysicalDevicePresentWaitFeaturesKHR presentWaitFeatures = {};
         const bool presentWaitSupported = supportedOptionalExtensions.find(VK_KHR_PRESENT_ID_EXTENSION_NAME) != supportedOptionalExtensions.end() && supportedOptionalExtensions.find(VK_KHR_PRESENT_WAIT_EXTENSION_NAME) != supportedOptionalExtensions.end();
@@ -3722,7 +3722,7 @@ namespace plume {
             presentWaitFeatures.pNext = featuresChain;
             featuresChain = &presentWaitFeatures;
         }
-
+/*
         VkPhysicalDeviceRobustness2FeaturesEXT robustnessFeatures = {};
         robustnessFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT;
         robustnessFeatures.pNext = featuresChain;
@@ -3782,12 +3782,13 @@ namespace plume {
             indexingFeatures.pNext = createDeviceChain;
             createDeviceChain = &indexingFeatures;
         }
-
+/*
         const bool scalarBlockLayout = layoutFeatures.scalarBlockLayout;
         if (scalarBlockLayout) {
             layoutFeatures.pNext = createDeviceChain;
             createDeviceChain = &layoutFeatures;
         }
+*/
 
         const bool presentWait = presentIdFeatures.presentId && presentWaitFeatures.presentWait;
         if (presentWait) {
@@ -3797,7 +3798,7 @@ namespace plume {
             presentWaitFeatures.pNext = createDeviceChain;
             createDeviceChain = &presentWaitFeatures;
         }
-
+/*
         const bool nullDescriptor = robustnessFeatures.nullDescriptor;
         if (nullDescriptor) {
             robustnessFeatures.pNext = createDeviceChain;
@@ -3809,6 +3810,7 @@ namespace plume {
             bufferDeviceAddressFeatures.pNext = createDeviceChain;
             createDeviceChain = &bufferDeviceAddressFeatures;
         }
+*/
 
 #ifdef __APPLE__
         portabilityFeatures.pNext = createDeviceChain;
@@ -3874,7 +3876,8 @@ namespace plume {
 
         std::vector<const char *> enabledExtensions;
         for (const std::string &extension : RequiredDeviceExtensions) {
-            enabledExtensions.push_back(extension.c_str());
+            if (missingRequiredExtensions.find(extension) == missingRequiredExtensions.end())
+                enabledExtensions.push_back(extension.c_str());
         }
 
         for (const std::string &extension : supportedOptionalExtensions) {
@@ -3924,7 +3927,7 @@ namespace plume {
         vmaFunctions.vkCmdCopyBuffer = vkCmdCopyBuffer;
 
         VmaAllocatorCreateInfo allocatorInfo = {};
-        allocatorInfo.flags |= bufferDeviceAddress ? VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT : 0;
+        //allocatorInfo.flags |= bufferDeviceAddress ? VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT : 0;
         allocatorInfo.physicalDevice = physicalDevice;
         allocatorInfo.device = vk;
         allocatorInfo.pVulkanFunctions = &vmaFunctions;
@@ -3957,7 +3960,7 @@ namespace plume {
         capabilities.raytracingStateUpdate = false;
         capabilities.sampleLocations = sampleLocationsSupported;
         capabilities.descriptorIndexing = descriptorIndexing;
-        capabilities.scalarBlockLayout = scalarBlockLayout;
+        //capabilities.scalarBlockLayout = scalarBlockLayout;
         capabilities.presentWait = presentWait;
         capabilities.displayTiming = supportedOptionalExtensions.find(VK_GOOGLE_DISPLAY_TIMING_EXTENSION_NAME) != supportedOptionalExtensions.end();
         capabilities.preferHDR = memoryHeapSize > (512 * 1024 * 1024);
@@ -4368,8 +4371,8 @@ namespace plume {
                 fprintf(stderr, "Missing required extension: %s.\n", extension.c_str());
             }
 
-            fprintf(stderr, "Unable to create instance. Required extensions are missing.\n");
-            return;
+            //fprintf(stderr, "Unable to create instance. Required extensions are missing.\n");
+            //return;
         }
 
         std::vector<const char *> enabledExtensions;
