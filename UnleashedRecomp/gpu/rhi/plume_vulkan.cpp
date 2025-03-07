@@ -3799,13 +3799,14 @@ namespace plume {
             presentWaitFeatures.pNext = createDeviceChain;
             createDeviceChain = &presentWaitFeatures;
         }
-/*
+
         const bool nullDescriptor = robustnessFeatures.nullDescriptor;
         if (nullDescriptor) {
             robustnessFeatures.pNext = createDeviceChain;
             createDeviceChain = &robustnessFeatures;
         }
 
+/*
         const bool bufferDeviceAddress = bufferDeviceAddressFeatures.bufferDeviceAddress;
         if (bufferDeviceAddress) {
             bufferDeviceAddressFeatures.pNext = createDeviceChain;
