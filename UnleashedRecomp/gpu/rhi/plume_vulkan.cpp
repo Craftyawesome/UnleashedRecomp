@@ -3799,14 +3799,13 @@ namespace plume {
             presentWaitFeatures.pNext = createDeviceChain;
             createDeviceChain = &presentWaitFeatures;
         }
-
+/*
         const bool nullDescriptor = robustnessFeatures.nullDescriptor;
         if (nullDescriptor) {
             robustnessFeatures.pNext = createDeviceChain;
             createDeviceChain = &robustnessFeatures;
         }
 
-/*
         const bool bufferDeviceAddress = bufferDeviceAddressFeatures.bufferDeviceAddress;
         if (bufferDeviceAddress) {
             bufferDeviceAddressFeatures.pNext = createDeviceChain;
@@ -3971,7 +3970,7 @@ namespace plume {
 
         // Fill Vulkan-only capabilities.
         loadStoreOpNoneSupported = supportedOptionalExtensions.find(VK_EXT_LOAD_STORE_OP_NONE_EXTENSION_NAME) != supportedOptionalExtensions.end();
-        nullDescriptorSupported = nullDescriptor;
+        nullDescriptorSupported = false; //nullDescriptor;
 
         if (!nullDescriptorSupported) {
             nullBuffer = createBuffer(RenderBufferDesc::DefaultBuffer(16, RenderBufferFlag::VERTEX));
