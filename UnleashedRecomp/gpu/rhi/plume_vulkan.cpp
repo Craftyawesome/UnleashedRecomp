@@ -3732,6 +3732,7 @@ namespace plume {
         bufferDeviceAddressFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
         bufferDeviceAddressFeatures.pNext = featuresChain;
         featuresChain = &bufferDeviceAddressFeatures;
+        */
 
 #ifdef __APPLE__
         VkPhysicalDevicePortabilitySubsetFeaturesKHR portabilityFeatures = {};
